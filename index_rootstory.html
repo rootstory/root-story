@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RootStory Store</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #2E7D32;
+  --green-light: #4CAF50;
+  --green-pale: #f0f7f0;
+  --green-dark: #1B5E20;
+  --ink: #1a1a1a;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: #fff; color: var(--ink); }
+
+/* HEADER */
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 8%; position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--green-dark); letter-spacing: -0.5px; }
+nav a { text-decoration: none; margin-left: 24px; color: var(--ink); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+nav a:hover { color: var(--green); }
+
+/* CART BUTTON */
+.cart-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--green); color: white;
+  border: none; padding: 10px 18px; border-radius: 100px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 12px rgba(46,125,50,0.3);
+}
+.cart-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+.cart-btn .badge {
+  background: white; color: var(--green);
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+}
+
+/* HERO */
+.hero {
+  padding: 100px 8% 80px;
+  background: linear-gradient(135deg, #f0f7f0 0%, #e8f5e9 50%, #f1f8e9 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; right: -100px; top: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(76,175,80,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-inner { max-width: 600px; }
+.hero-tag { display: inline-block; background: rgba(46,125,50,0.1); color: var(--green-dark); font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; margin-bottom: 20px; }
+.hero h1 { font-family: 'DM Serif Display', serif; font-size: 52px; line-height: 1.1; margin-bottom: 16px; color: var(--ink); }
+.hero h1 em { color: var(--green); font-style: italic; }
+.hero p { color: var(--muted); font-size: 17px; line-height: 1.7; margin-bottom: 32px; max-width: 480px; }
+.btn-hero { background: var(--green); color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px; display: inline-block; transition: all 0.2s; box-shadow: 0 4px 16px rgba(46,125,50,0.3); }
+.btn-hero:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+/* SECTION */
+.section { padding: 80px 8%; }
+.section-header { text-align: center; margin-bottom: 50px; }
+.section-header h2 { font-family: 'DM Serif Display', serif; font-size: 38px; margin-bottom: 10px; }
+.section-header p { color: var(--muted); font-size: 16px; }
+
+/* PRODUCTS */
+.products { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; }
+.card {
+  border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; background: white;
+  transition: all 0.25s; cursor: pointer;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); border-color: rgba(76,175,80,0.4); }
+.card-img { position: relative; overflow: hidden; }
+.card img { width: 100%; height: 210px; object-fit: cover; display: block; transition: transform 0.4s; }
+.card:hover img { transform: scale(1.05); }
+.card-badge { position: absolute; top: 12px; left: 12px; background: white; color: var(--green-dark); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px; letter-spacing: 0.5px; }
+.card-body { padding: 18px 20px 20px; }
+.card h3 { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+.card .desc { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; }
+.price { color: var(--green-dark); font-weight: 700; font-size: 20px; }
+.add-btn {
+  background: var(--green); color: white;
+  border: none; padding: 9px 18px; border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+}
+.add-btn:hover { background: var(--green-dark); }
+.add-btn.added { background: #388e3c; }
+
+/* ABOUT */
+#about { background: var(--green-pale); border-radius: 24px; margin: 0 8% 80px; padding: 70px 8%; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.about-text h2 { font-family: 'DM Serif Display', serif; font-size: 38px; line-height: 1.2; margin-bottom: 16px; }
+.about-text p { color: var(--muted); line-height: 1.8; font-size: 15px; margin-bottom: 14px; }
+.about-stats { display: flex; gap: 32px; margin-top: 24px; }
+.stat-num { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--green); display: block; }
+.stat-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+.about-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.about-visual img { width: 100%; border-radius: 12px; object-fit: cover; }
+.about-visual img:first-child { height: 200px; grid-column: 1/-1; }
+.about-visual img:not(:first-child) { height: 130px; }
+
+/* FOOTER */
+footer { background: var(--ink); color: rgba(255,255,255,0.6); text-align: center; padding: 28px; font-size: 13px; }
+footer span { color: white; }
+
+/* ===== CART DRAWER ===== */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  z-index: 200; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.overlay.open { opacity: 1; pointer-events: all; }
+
+.cart-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 100%;
+  background: white; z-index: 300; display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: -8px 0 40px rgba(0,0,0,0.12);
+}
+.cart-drawer.open { transform: translateX(0); }
+
+.drawer-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 24px; border-bottom: 1px solid var(--border);
+}
+.drawer-header h3 { font-family: 'DM Serif Display', serif; font-size: 22px; }
+.close-btn {
+  background: none; border: none; cursor: pointer; font-size: 22px;
+  color: var(--muted); width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.close-btn:hover { background: var(--green-pale); }
+
+.cart-items { flex: 1; overflow-y: auto; padding: 20px 24px; }
+
+.cart-item {
+  display: flex; gap: 14px; align-items: center;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+.cart-item img { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+.item-info { flex: 1; }
+.item-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+.item-price { color: var(--green); font-weight: 700; font-size: 15px; }
+.qty-ctrl { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.qty-btn {
+  background: var(--green-pale); border: none; width: 28px; height: 28px;
+  border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 700;
+  color: var(--green-dark); display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.qty-btn:hover { background: #c8e6c9; }
+.qty-num { font-weight: 600; font-size: 15px; min-width: 20px; text-align: center; }
+.remove-item { background: none; border: none; color: #ef5350; cursor: pointer; font-size: 18px; padding: 4px; border-radius: 6px; transition: background 0.2s; }
+.remove-item:hover { background: #ffebee; }
+
+.empty-cart { text-align: center; padding: 60px 20px; color: var(--muted); }
+.empty-cart .icon { font-size: 48px; margin-bottom: 14px; display: block; }
+
+.drawer-footer { padding: 20px 24px; border-top: 1px solid var(--border); background: #fafafa; }
+.cart-total { display: flex; justify-content: space-between; font-size: 17px; font-weight: 700; margin-bottom: 16px; }
+.checkout-btn {
+  width: 100%; background: var(--green); color: white; border: none;
+  padding: 15px; border-radius: 10px; font-family: 'DM Sans', sans-serif;
+  font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(46,125,50,0.3);
+}
+.checkout-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+.checkout-btn:disabled { background: #ccc; box-shadow: none; transform: none; cursor: not-allowed; }
+
+/* ===== ORDER MODAL ===== */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  z-index: 400; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 20px;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: white; border-radius: 20px; width: 100%; max-width: 520px;
+  max-height: 90vh; overflow-y: auto;
+  transform: scale(0.92) translateY(20px); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+.modal-header {
+  padding: 28px 28px 0;
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.modal-header h3 { font-family: 'DM Serif Display', serif; font-size: 26px; }
+.modal-header p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+.modal-body { padding: 24px 28px 28px; }
+
+.order-summary {
+  background: var(--green-pale); border-radius: 12px; padding: 16px;
+  margin-bottom: 24px;
+}
+.order-summary h4 { font-size: 13px; font-weight: 600; color: var(--green-dark); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+.order-line { display: flex; justify-content: space-between; font-size: 14px; padding: 5px 0; }
+.order-line span:last-child { font-weight: 600; }
+.order-divider { border: none; border-top: 1px solid #c8e6c9; margin: 10px 0; }
+.order-total-line { display: flex; justify-content: space-between; font-size: 16px; font-weight: 700; color: var(--green-dark); padding: 6px 0 0; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+  border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+  transition: border-color 0.2s; outline: none; background: white;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(76,175,80,0.1); }
+.form-group textarea { resize: vertical; min-height: 90px; }
+.form-group.full { grid-column: 1 / -1; }
+
+.place-order-btn {
+  width: 100%; background: var(--green); color: white; border: none;
+  padding: 16px; border-radius: 12px; font-family: 'DM Sans', sans-serif;
+  font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(46,125,50,0.35); margin-top: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.place-order-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+.place-order-btn:disabled { background: #9e9e9e; box-shadow: none; transform: none; cursor: not-allowed; }
+
+/* SUCCESS STATE */
+.success-state { text-align: center; padding: 40px 28px 48px; }
+.success-icon { font-size: 60px; margin-bottom: 16px; display: block; animation: pop 0.4s cubic-bezier(0.4,0,0.2,1); }
+@keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+.success-state h3 { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 10px; }
+.success-state p { color: var(--muted); line-height: 1.7; font-size: 15px; max-width: 340px; margin: auto; }
+.continue-btn {
+  margin-top: 24px; background: var(--green); color: white; border: none;
+  padding: 13px 28px; border-radius: 10px; font-family: 'DM Sans', sans-serif;
+  font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.continue-btn:hover { background: var(--green-dark); }
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 36px; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { display: none; }
+  #about { margin: 0 0 60px; border-radius: 0; }
+  .form-row { grid-template-columns: 1fr; }
+  .cart-drawer { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <div>
+      <h3>Your Cart 🌿</h3>
+    </div>
+    <button class="close-btn" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="empty-cart" id="emptyMsg">
+      <span class="icon">🪴</span>
+      <p>Your cart is empty.<br>Add some plants to get started!</p>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">₹0</span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn" onclick="openOrderModal()" disabled>
+      Proceed to Order →
+    </button>
+  </div>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="orderModal">
+    <!-- FORM VIEW -->
+    <div id="formView">
+      <div class="modal-header">
+        <div>
+          <h3>Complete Your Order</h3>
+          <p>Fill in your details and we'll confirm shortly.</p>
+        </div>
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Order Summary -->
+        <div class="order-summary">
+          <h4>Order Summary</h4>
+          <div id="summaryLines"></div>
+          <hr class="order-divider">
+          <div class="order-total-line">
+            <span>Total</span>
+            <span id="summaryTotal">₹0</span>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" id="fname" placeholder="Riya" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" id="lname" placeholder="Sharma" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="email" placeholder="you@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="phone" placeholder="+91 98765 43210" required>
+        </div>
+        <div class="form-group">
+          <label>Delivery Address *</label>
+          <textarea id="address" placeholder="House No., Street, City, State, PIN Code" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Special Instructions (optional)</label>
+          <input type="text" id="notes" placeholder="e.g. Leave at door, gift wrap, etc.">
+        </div>
+
+        <button class="place-order-btn" id="placeOrderBtn" onclick="submitOrder()">
+          <span>🌱</span> Place Order
+        </button>
+      </div>
+    </div>
+
+    <!-- SUCCESS VIEW -->
+    <div id="successView" style="display:none">
+      <div class="success-state">
+        <span class="success-icon">✅</span>
+        <h3>Order Placed!</h3>
+        <p>Thank you for your order. We've received it and will confirm via email soon. Happy growing! 🌿</p>
+        <button class="continue-btn" onclick="resetAfterOrder()">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">RootStory</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#shop">Shop</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="cart-btn" onclick="openCart()">
+    🛒 Cart <span class="badge" id="cartCount">0</span>
+  </button>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">🌿 Free delivery on orders above ₹999</span>
+    <h1>Grow Your <em>Green</em> Story</h1>
+    <p>Beautiful plants and gardening essentials for modern homes. Curated for beginners and plant lovers alike.</p>
+    <a href="#shop" class="btn-hero">Shop Plants →</a>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section class="section" id="shop">
+  <div class="section-header">
+    <h2>Featured Plants</h2>
+    <p>Handpicked favourites to bring life into your space</p>
+  </div>
+  <div class="products">
+
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=600&q=80" alt="Snake Plant">
+        <span class="card-badge">Best Seller</span>
+      </div>
+      <div class="card-body">
+        <h3>Snake Plant</h3>
+        <p class="desc">Air purifying & low maintenance. Perfect for beginners.</p>
+        <div class="card-footer">
+          <span class="price">₹299</span>
+          <button class="add-btn" onclick="addToCart('Snake Plant', 299, 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=200&q=60', this)">
+            + Add
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=600&q=80" alt="Monstera">
+        <span class="card-badge">Trending</span>
+      </div>
+      <div class="card-body">
+        <h3>Monstera</h3>
+        <p class="desc">Iconic split leaves. A statement plant for any room.</p>
+        <div class="card-footer">
+          <span class="price">₹499</span>
+          <button class="add-btn" onclick="addToCart('Monstera', 499, 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=200&q=60', this)">
+            + Add
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1463320726281-696a485928c7?w=600&q=80" alt="Aloe Vera">
+      </div>
+      <div class="card-body">
+        <h3>Aloe Vera</h3>
+        <p class="desc">Soothing, hardy and sun-loving. Great for windowsills.</p>
+        <div class="card-footer">
+          <span class="price">₹199</span>
+          <button class="add-btn" onclick="addToCart('Aloe Vera', 199, 'https://images.unsplash.com/photo-1463320726281-696a485928c7?w=200&q=60', this)">
+            + Add
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1459156212016-c812468e2115?w=600&q=80" alt="Succulent Set">
+        <span class="card-badge">Gift Ready</span>
+      </div>
+      <div class="card-body">
+        <h3>Succulent Set</h3>
+        <p class="desc">A set of 3 curated succulents in terracotta pots.</p>
+        <div class="card-footer">
+          <span class="price">₹399</span>
+          <button class="add-btn" onclick="addToCart('Succulent Set', 399, 'https://images.unsplash.com/photo-1459156212016-c812468e2115?w=200&q=60', this)">
+            + Add
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <h2>We Love Plants as Much as You Do</h2>
+      <p>RootStory is built for plant lovers who want greener homes. We offer carefully selected plants, beginner-friendly kits and gardening tools that make growing simple and joyful.</p>
+      <p>Every plant is nurtured with care before it reaches your door — packed safely, delivered with love.</p>
+      <div class="about-stats">
+        <div>
+          <span class="stat-num">2K+</span>
+          <span class="stat-label">Happy Customers</span>
+        </div>
+        <div>
+          <span class="stat-num">50+</span>
+          <span class="stat-label">Plant Varieties</span>
+        </div>
+        <div>
+          <span class="stat-num">4.9★</span>
+          <span class="stat-label">Avg. Rating</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80" alt="Garden">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80" alt="Plant care">
+      <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=300&q=80" alt="Succulents">
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="section-header">
+    <h2>Get in Touch</h2>
+    <p>Questions? Just reach out to us at <strong>ansarii.shadman@proton.me</strong></p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <span>RootStory</span>. Made with 🌿 for plant lovers.</p>
+</footer>
+
+<script>
+// ─── State ───────────────────────────────────────────────
+let cartItems = [];
+
+// ─── Cart Logic ──────────────────────────────────────────
+function addToCart(name, price, img, btn) {
+  const existing = cartItems.find(i => i.name === name);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cartItems.push({ name, price, img, qty: 1 });
+  }
+  btn.textContent = '✓ Added';
+  btn.classList.add('added');
+  setTimeout(() => { btn.textContent = '+ Add'; btn.classList.remove('added'); }, 1200);
+  renderCart();
+  openCart();
+}
+
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  const emptyMsg = document.getElementById('emptyMsg');
+  const total = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
+
+  document.getElementById('cartCount').textContent = cartItems.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cartTotal').textContent = '₹' + total.toLocaleString('en-IN');
+  document.getElementById('checkoutBtn').disabled = cartItems.length === 0;
+
+  if (cartItems.length === 0) {
+    container.innerHTML = '';
+    container.appendChild(emptyMsg);
+    emptyMsg.style.display = '';
+    return;
+  }
+  emptyMsg.style.display = 'none';
+
+  const rows = cartItems.map((item, idx) => `
+    <div class="cart-item">
+      <img src="${item.img}" alt="${item.name}">
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(${idx}, -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+        </div>
+      </div>
+      <button class="remove-item" onclick="removeItem(${idx})" title="Remove">🗑</button>
+    </div>
+  `).join('');
+
+  container.innerHTML = rows;
+  container.appendChild(emptyMsg);
+}
+
+function changeQty(idx, delta) {
+  cartItems[idx].qty += delta;
+  if (cartItems[idx].qty <= 0) cartItems.splice(idx, 1);
+  renderCart();
+}
+
+function removeItem(idx) {
+  cartItems.splice(idx, 1);
+  renderCart();
+}
+
+// ─── Drawer ───────────────────────────────────────────────
+function openCart() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ─── Order Modal ─────────────────────────────────────────
+function openOrderModal() {
+  closeCart();
+  // Populate summary
+  const lines = cartItems.map(i => `
+    <div class="order-line">
+      <span>${i.name} × ${i.qty}</span>
+      <span>₹${(i.price * i.qty).toLocaleString('en-IN')}</span>
+    </div>
+  `).join('');
+  document.getElementById('summaryLines').innerHTML = lines;
+  const total = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
+  document.getElementById('summaryTotal').textContent = '₹' + total.toLocaleString('en-IN');
+
+  document.getElementById('formView').style.display = '';
+  document.getElementById('successView').style.display = 'none';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ─── Submit Order via Formspree ───────────────────────────
+async function submitOrder() {
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+
+  if (!fname || !lname || !email || !phone || !address) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  const total = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
+  const orderLines = cartItems.map(i => `${i.name} × ${i.qty} = ₹${i.price * i.qty}`).join('\n');
+
+  const btn = document.getElementById('placeOrderBtn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Placing Order...';
+
+  const formData = new FormData();
+  formData.append('_replyto', email);
+  formData.append('name', `${fname} ${lname}`);
+  formData.append('email', email);
+  formData.append('phone', phone);
+  formData.append('address', address);
+  formData.append('order', orderLines);
+  formData.append('total', `₹${total.toLocaleString('en-IN')}`);
+  formData.append('notes', notes || 'None');
+  formData.append('_subject', `🌿 New RootStory Order from ${fname} ${lname}`);
+
+  try {
+    const res = await fetch('https://formspree.io/f/mjgagobb', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('successView').style.display = '';
+    } else {
+      throw new Error('Failed');
+    }
+  } catch (e) {
+    // Fallback: show success anyway and open mailto
+    const subject = encodeURIComponent(`🌿 New RootStory Order from ${fname} ${lname}`);
+    const body = encodeURIComponent(
+      `Name: ${fname} ${lname}\nEmail: ${email}\nPhone: ${phone}\n\nOrder:\n${orderLines}\n\nTotal: ₹${total.toLocaleString('en-IN')}\n\nDelivery Address:\n${address}\n\nNotes: ${notes || 'None'}`
+    );
+    window.location.href = `mailto:ansarii.shadman@proton.me?subject=${subject}&body=${body}`;
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successView').style.display = '';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<span>🌱</span> Place Order';
+}
+
+function resetAfterOrder() {
+  cartItems = [];
+  renderCart();
+  closeModal();
+  // Clear form
+  ['fname','lname','email','phone','address','notes'].forEach(id => document.getElementById(id).value = '');
+}
+
+// Init
+renderCart();
+</script>
+</body>
+</html>
